@@ -114,13 +114,55 @@ create policy "candidates_public_read"
   to anon
   using (active = true);
 
--- El visitante SOLO puede insertar su propio voto. No puede leer, editar
--- ni eliminar votos (ninguna policy de select/update/delete para anon).
+-- El visitante NO tiene ningún acceso directo a la tabla votes (ni insert,
+-- ni select, ni nada). Solo puede votar a través de la función
+-- submit_vote() de abajo, que corre con privilegios elevados (security
+-- definer) y expone únicamente lo mínimo necesario: registrar el voto y
+-- devolver el código de cupón. Así, aunque alguien intente leer o
+-- manipular la tabla directamente vía la API, no puede.
 drop policy if exists "votes_public_insert" on public.votes;
-create policy "votes_public_insert"
-  on public.votes for insert
-  to anon
-  with check (true);
+revoke insert, select, update, delete on public.votes from anon;
+
+-- =========================================================
+-- Función pública para votar (única puerta de entrada a votes)
+-- =========================================================
+create or replace function public.submit_vote(
+  p_name text,
+  p_phone text,
+  p_phone_normalized text,
+  p_email text,
+  p_candidate_id integer,
+  p_candidate_name text,
+  p_marketing_consent boolean
+)
+returns text
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_coupon text;
+begin
+  if now() > timestamptz '2026-11-22 23:59:59-05:00' then
+    raise exception 'URNAS_CERRADAS: la votación ha finalizado';
+  end if;
+
+  v_coupon := public.generate_coupon_code();
+
+  insert into public.votes (
+    name, phone, phone_normalized, email,
+    candidate_id, candidate_name, coupon_code, marketing_consent
+  ) values (
+    p_name, p_phone, p_phone_normalized, p_email,
+    p_candidate_id, p_candidate_name, v_coupon, p_marketing_consent
+  );
+
+  return v_coupon;
+end;
+$$;
+
+revoke all on function public.submit_vote from public;
+grant execute on function public.submit_vote to anon;
 
 -- Nota: las consultas administrativas (resultados, exportación CSV,
 -- validación de cupones) deben hacerse desde el panel de Supabase o con

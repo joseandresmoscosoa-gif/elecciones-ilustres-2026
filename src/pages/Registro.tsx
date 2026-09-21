@@ -40,19 +40,15 @@ export default function Registro({ candidate, onBack, onVoted }: Props) {
 
     const phoneNormalized = normalizePhoneEC(form.phone);
 
-    const { data, error } = await supabase
-      .from("votes")
-      .insert({
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        phone_normalized: phoneNormalized,
-        email: form.email.trim() || null,
-        candidate_id: candidate.id,
-        candidate_name: candidate.name,
-        marketing_consent: form.marketingConsent,
-      })
-      .select("coupon_code")
-      .single();
+    const { data, error } = await supabase.rpc("submit_vote", {
+      p_name: form.name.trim(),
+      p_phone: form.phone.trim(),
+      p_phone_normalized: phoneNormalized,
+      p_email: form.email.trim() || null,
+      p_candidate_id: candidate.id,
+      p_candidate_name: candidate.name,
+      p_marketing_consent: form.marketingConsent,
+    });
 
     if (error) {
       // 23505 = violación de UNIQUE (celular duplicado) en Postgres
@@ -65,7 +61,7 @@ export default function Registro({ candidate, onBack, onVoted }: Props) {
     }
 
     onVoted({
-      couponCode: data.coupon_code as string,
+      couponCode: data as string,
       candidateName: candidate.name,
     });
   }

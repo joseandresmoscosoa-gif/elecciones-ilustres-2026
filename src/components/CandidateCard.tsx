@@ -32,12 +32,12 @@ export default function CandidateCard({
         </span>
       )}
 
-      <div className="w-full aspect-square bg-ilustre-blueLight/20">
+      <div className="relative w-full aspect-square bg-ilustre-blueLight/20">
         <img
           src={candidate.image}
           alt={candidate.name}
           loading="lazy"
-          className="w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
       </div>
 

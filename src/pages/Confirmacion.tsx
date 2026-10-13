@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { VoteResult } from "../types";
+import ResultsPanel from "../components/ResultsPanel";
 
 interface Props {
   result: VoteResult;
@@ -95,6 +96,8 @@ export default function Confirmacion({ result }: Props) {
           entre quienes votaron por el candidato ganador.
         </p>
       </div>
+
+      <ResultsPanel />
     </div>
   );
 }

@@ -164,6 +164,36 @@ $$;
 revoke all on function public.submit_vote from public;
 grant execute on function public.submit_vote to anon;
 
--- Nota: las consultas administrativas (resultados, exportación CSV,
--- validación de cupones) deben hacerse desde el panel de Supabase o con
--- la Service Role Key en un entorno de servidor, NUNCA desde el frontend.
+-- =========================================================
+-- Resultados públicos en porcentaje (sin números absolutos)
+-- Se muestra al votante después de confirmar su voto. Nunca expone
+-- el conteo real de votos, solo el porcentaje relativo por candidato,
+-- por eso es seguro dejarla pública incluso con las urnas abiertas.
+-- =========================================================
+create or replace function public.get_results_percent()
+returns table(candidate_name text, pct numeric)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  with total as (
+    select count(*)::numeric as n from public.votes
+  )
+  select
+    c.name as candidate_name,
+    coalesce(round(count(v.id) / nullif((select n from total), 0) * 100, 1), 0) as pct
+  from public.candidates c
+  left join public.votes v on v.candidate_id = c.id
+  where c.active = true
+  group by c.name, c.number
+  order by c.number;
+$$;
+
+revoke all on function public.get_results_percent from public;
+grant execute on function public.get_results_percent to anon;
+
+-- Nota: las consultas administrativas con números absolutos
+-- (exportación CSV, validación de cupones) deben hacerse desde el
+-- panel de Supabase o con la Service Role Key en un entorno de
+-- servidor, NUNCA desde el frontend.

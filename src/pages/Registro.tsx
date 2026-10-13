@@ -22,7 +22,7 @@ export default function Registro({ candidate, onBack, onVoted }: Props) {
     phone: "",
     email: "",
     dataConsent: false,
-    marketingConsent: false,
+    marketingConsent: true,
   });
   const [submitState, setSubmitState] = useState<SubmitState>({
     status: "idle",

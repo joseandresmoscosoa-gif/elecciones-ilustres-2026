@@ -76,6 +76,10 @@ export default function Confirmacion({ result }: Props) {
             {copied ? "✓ Copiado" : "Toca para copiar"}
           </p>
         </button>
+
+        <p className="text-xs text-white/80 mt-4">
+          Preséntalo en tu próxima visita a La Ilustre para hacerlo efectivo.
+        </p>
       </div>
 
       {/* Sorteo: tarjeta destacada */}

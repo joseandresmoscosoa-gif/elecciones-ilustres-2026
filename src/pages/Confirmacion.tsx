@@ -77,8 +77,20 @@ export default function Confirmacion({ result }: Props) {
           </p>
         </button>
 
-        <p className="text-xs text-white/80 mt-4">
-          Preséntalo en tu próxima visita a La Ilustre para hacerlo efectivo.
+      </div>
+
+      {/* Aviso: guardar el cupón */}
+      <div className="w-full rounded-2xl border-2 border-dashed border-ilustre-orange bg-white px-4 py-3 flex items-start gap-3 text-left">
+        <span className="text-2xl shrink-0" aria-hidden>
+          📸
+        </span>
+        <p className="text-sm text-ilustre-blueDark/80">
+          <span className="font-semibold text-ilustre-blueDark">
+            Guarda o captura este cupón
+          </span>{" "}
+          y preséntalo en tu próxima visita a La Ilustre para hacerlo
+          efectivo. Si no lo tienes a mano, puedes buscarlo después con tu
+          celular.
         </p>
       </div>
 

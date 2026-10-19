@@ -6,6 +6,7 @@ import Entrada from "./pages/Entrada";
 import Papeleta from "./pages/Papeleta";
 import Registro from "./pages/Registro";
 import Confirmacion from "./pages/Confirmacion";
+import BuscarCupon from "./pages/BuscarCupon";
 import UrnasCerradas from "./pages/UrnasCerradas";
 import BallotHeader from "./components/BallotHeader";
 
@@ -29,7 +30,14 @@ export default function App() {
       <BallotHeader />
       <main className="flex-1 w-full max-w-md mx-auto px-4 pb-10 pt-4 sm:max-w-lg md:max-w-2xl">
         {step === "entrada" && (
-          <Entrada onStart={() => setStep("papeleta")} />
+          <Entrada
+            onStart={() => setStep("papeleta")}
+            onFindCoupon={() => setStep("buscarCupon")}
+          />
+        )}
+
+        {step === "buscarCupon" && (
+          <BuscarCupon onBack={() => setStep("entrada")} />
         )}
 
         {step === "papeleta" && (

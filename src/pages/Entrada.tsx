@@ -1,8 +1,9 @@
 interface Props {
   onStart: () => void;
+  onFindCoupon: () => void;
 }
 
-export default function Entrada({ onStart }: Props) {
+export default function Entrada({ onStart, onFindCoupon }: Props) {
   return (
     <div className="flex flex-col items-center text-center min-h-[75vh] justify-center gap-6 animate-[fadeIn_0.4s_ease-out]">
       <div className="space-y-1">
@@ -25,6 +26,13 @@ export default function Entrada({ onStart }: Props) {
         className="w-full max-w-xs min-h-[52px] bg-ilustre-orange hover:bg-ilustre-orangeDark active:scale-[0.98] transition text-white font-display uppercase tracking-wide text-lg rounded-xl shadow-ballot"
       >
         Votar ahora
+      </button>
+
+      <button
+        onClick={onFindCoupon}
+        className="text-sm text-ilustre-blueDark/70 underline underline-offset-2"
+      >
+        ¿Ya votaste? Encuentra tu cupón
       </button>
 
       <p className="text-xs text-ilustre-blueDark/50 max-w-xs">

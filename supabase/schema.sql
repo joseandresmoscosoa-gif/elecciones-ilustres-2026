@@ -193,6 +193,48 @@ $$;
 revoke all on function public.get_results_percent from public;
 grant execute on function public.get_results_percent to anon;
 
+-- =========================================================
+-- "Encuentra tu cupón": el votante busca su propio voto con su
+-- celular. Devuelve SOLO la fila de ese celular (nunca la lista de
+-- votos), y solo los campos necesarios para mostrar el cupón.
+-- =========================================================
+create or replace function public.normalize_phone_ec(p_phone text)
+returns text
+language sql
+immutable
+as $$
+  select case
+    when regexp_replace(p_phone, '\D', '', 'g') like '593%'
+      then '+' || regexp_replace(p_phone, '\D', '', 'g')
+    when regexp_replace(p_phone, '\D', '', 'g') like '0%'
+      then '+593' || substring(regexp_replace(p_phone, '\D', '', 'g') from 2)
+    when length(regexp_replace(p_phone, '\D', '', 'g')) = 9
+      then '+593' || regexp_replace(p_phone, '\D', '', 'g')
+    else '+' || regexp_replace(p_phone, '\D', '', 'g')
+  end;
+$$;
+
+create or replace function public.find_my_vote(p_phone text)
+returns table(
+  candidate_name text,
+  coupon_code text,
+  coupon_redeemed boolean
+)
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select v.candidate_name, v.coupon_code, v.coupon_redeemed
+  from public.votes v
+  where v.phone_normalized = public.normalize_phone_ec(p_phone)
+  limit 1;
+$$;
+
+revoke all on function public.normalize_phone_ec from public;
+revoke all on function public.find_my_vote from public;
+grant execute on function public.find_my_vote to anon;
+
 -- Nota: las consultas administrativas con números absolutos
 -- (exportación CSV, validación de cupones) deben hacerse desde el
 -- panel de Supabase o con la Service Role Key en un entorno de

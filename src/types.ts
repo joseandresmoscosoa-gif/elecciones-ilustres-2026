@@ -1,4 +1,9 @@
-export type Step = "entrada" | "papeleta" | "registro" | "confirmacion";
+export type Step =
+  | "entrada"
+  | "papeleta"
+  | "registro"
+  | "confirmacion"
+  | "buscarCupon";
 
 export interface VoterForm {
   name: string;

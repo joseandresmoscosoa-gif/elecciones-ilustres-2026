@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  @page { size: 105mm 148mm; margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 105mm;
+    height: 148mm;
+    font-family: 'Inter', sans-serif;
+    background: #F7F3EC;
+    overflow: hidden;
+  }
+
+  .sheet {
+    width: 105mm;
+    height: 148mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .topbar {
+    width: 100%;
+    background: #3B7C9D;
+    height: 4mm;
+  }
+
+  .logo-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 3mm 0 1.5mm;
+  }
+  .logo-row img {
+    height: 7mm;
+  }
+
+  .eyebrow {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #DF7D46;
+    font-size: 7pt;
+    text-align: center;
+  }
+
+  .headline {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #2A5A73;
+    font-size: 19pt;
+    line-height: 1.02;
+    text-align: center;
+    margin-top: 1mm;
+  }
+
+  .sub {
+    font-size: 8.5pt;
+    color: #2A5A73;
+    opacity: 0.85;
+    text-align: center;
+    margin-top: 1.5mm;
+    font-weight: 600;
+  }
+
+  .qr-card {
+    margin-top: 4mm;
+    background: white;
+    border: 1.8mm solid #3B7C9D;
+    border-radius: 5mm;
+    padding: 3mm;
+  }
+  .qr-card img {
+    width: 38mm;
+    height: 38mm;
+    display: block;
+  }
+
+  .scan-label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #2A5A73;
+    font-size: 9.5pt;
+    text-align: center;
+    margin-top: 2.5mm;
+    letter-spacing: 0.04em;
+  }
+
+  .premio {
+    margin-top: 4mm;
+    width: 92mm;
+    background: linear-gradient(135deg, #DF7D46, #C06530);
+    border-radius: 6mm;
+    padding: 4.5mm 4mm;
+    text-align: center;
+    color: white;
+  }
+  .premio .tag {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 8pt;
+    opacity: 0.92;
+  }
+  .premio .pct {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 38pt;
+    line-height: 0.95;
+    margin-top: 0.5mm;
+  }
+  .premio .desc {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 11pt;
+    margin-top: 0.5mm;
+  }
+  .premio .detail {
+    font-size: 7.5pt;
+    margin-top: 1mm;
+    opacity: 0.92;
+  }
+
+  .footer {
+    width: 100%;
+    text-align: center;
+    padding: 2mm 4mm 2.5mm;
+    font-size: 6.8pt;
+    color: #2A5A73;
+    opacity: 0.6;
+    margin-top: auto;
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="topbar"></div>
+    <div class="logo-row"><img src="logo.png" alt="La Ilustre" /></div>
+    <div class="eyebrow">Elecciones Ilustres 2026</div>
+    <div class="headline">Tu plato.<br/>Tu voto.</div>
+    <div class="sub">Escanea, elige tu candidato y vota</div>
+
+    <div class="qr-card"><img src="qr.png" alt="QR" /></div>
+    <div class="scan-label">↑ Escanea aquí ↑</div>
+
+    <div class="premio">
+      <div class="tag">Votar tiene premio</div>
+      <div class="pct">25%</div>
+      <div class="desc">de descuento</div>
+      <div class="detail">en tu candidato, en tu próxima visita</div>
+    </div>
+
+    <div class="footer">Las urnas cierran el domingo 22 de noviembre de 2026</div>
+  </div>
+</body>
+</html>
